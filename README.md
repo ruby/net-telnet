@@ -20,6 +20,31 @@ Or install it yourself as:
 
     $ gem install net-telnet
 
+## Usage
+
+### Log in and send a command, echoing all output to stdout
+
+```ruby
+localhost = Net::Telnet::new("Host" => "localhost",
+                             "Timeout" => 10,
+                             "Prompt" => /[$%#>] \z/n)
+localhost.login("username", "password") { |c| print c }
+localhost.cmd("command") { |c| print c }
+localhost.close
+```
+
+### Check a POP server to see if you have mail
+
+```ruby
+pop = Net::Telnet::new("Host" => "your_destination_host_here",
+                       "Port" => 110,
+                       "Telnetmode" => false,
+                       "Prompt" => /^\+OK/n)
+pop.cmd("user " + "your_username_here") { |c| print c }
+pop.cmd("pass " + "your_password_here") { |c| print c }
+pop.cmd("list") { |c| print c }
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
