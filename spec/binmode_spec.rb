@@ -14,7 +14,6 @@ describe "Net::Telnet#binmode when passed no arguments or nil" do
     @telnet.binmode(nil).should be_false
     @telnet.binmode = true
     @telnet.binmode.should be_true
-    @telnet.binmode.should be_true
   end
 end
 
