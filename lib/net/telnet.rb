@@ -552,8 +552,8 @@ module Net
       line = ''
       buf = ''
       rest = ''
-      until(prompt === line and not IO::select([@sock], nil, nil, waittime))
-        unless IO::select([@sock], nil, nil, time_out)
+      until(prompt === line and not @sock.wait_readable(waittime))
+        unless @sock.wait_readable(time_out)
           raise Net::ReadTimeout, "timed out while waiting for more data"
         end
         begin
@@ -610,7 +610,7 @@ module Net
     def write(string)
       length = string.length
       while 0 < length
-        IO::select(nil, [@sock])
+        @sock.wait_writable
         @dumplog.log_dump('>', string[-length..-1]) if @options.has_key?("Dump_log")
         length -= @sock.syswrite(string[-length..-1])
       end
