@@ -1,4 +1,4 @@
-require 'net/telnet'
+require_relative '../lib/net/telnet'
 
 describe "Net::Telnet#binmode when passed no arguments or nil" do
   before(:each) do
