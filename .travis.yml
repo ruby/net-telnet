@@ -3,4 +3,6 @@ rvm:
   - 2.3.0
   - ruby-head
 
-script: mspec
+script:
+  - rake test
+  - mspec
