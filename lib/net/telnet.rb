@@ -182,6 +182,7 @@ module Net
     #   host = Net::Telnet::new(
     #            "Host"       => "localhost",  # default: "localhost"
     #            "Port"       => 23,           # default: 23
+    #            "Source"     => 192.168.1.1   # default: nil
     #            "Binmode"    => false,        # default: false
     #            "Output_log" => "output_log", # default: nil (no output)
     #            "Dump_log"   => "dump_log",   # default: nil (no output)
@@ -200,6 +201,10 @@ module Net
     #        Defaults to "localhost".
     #
     # Port:: the port to connect to.  Defaults to 23.
+    #
+    # Source:: the local IP address, or hostname from which to connect to
+    #          remote host, as a String.
+    #          Defaults to nil, system will choose best "route".
     #
     # Binmode:: if false (the default), newline substitution is performed.
     #           Outgoing LF is
@@ -274,6 +279,7 @@ module Net
       @options = options
       @options["Host"]       = "localhost"   unless @options.has_key?("Host")
       @options["Port"]       = 23            unless @options.has_key?("Port")
+      @options["Source"]     = nil           unless @options.has_key?("Source")
       @options["Prompt"]     = /[$%#>] \z/n  unless @options.has_key?("Prompt")
       @options["Timeout"]    = 10            unless @options.has_key?("Timeout")
       @options["Waittime"]   = 0             unless @options.has_key?("Waittime")
@@ -344,10 +350,10 @@ module Net
 
         begin
           if @options["Timeout"] == false
-            @sock = TCPSocket.open(@options["Host"], @options["Port"])
+            @sock = TCPSocket.new(@options["Host"], @options["Port"], @options["Source"])
           else
             Timeout.timeout(@options["Timeout"], Net::OpenTimeout) do
-              @sock = TCPSocket.open(@options["Host"], @options["Port"])
+              @sock = TCPSocket.new(@options["Host"], @options["Port"], @options["Source"] )
             end
           end
         rescue Net::OpenTimeout
