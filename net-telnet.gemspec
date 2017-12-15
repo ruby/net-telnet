@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Provides telnet client functionality.}
   spec.description   = %q{Provides telnet client functionality.}
   spec.homepage      = "https://github.com/ruby/net-telnet"
+  spec.license       = "ruby"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"
