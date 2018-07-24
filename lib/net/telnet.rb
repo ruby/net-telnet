@@ -573,20 +573,20 @@ module Net
               buf = preprocess(c)
               rest = ''
             end
-         else
-           # Not Telnetmode.
-           #
-           # We cannot use preprocess() on this data, because that
-           # method makes some Telnetmode-specific assumptions.
-           buf = rest + c
-           rest = ''
-           unless @options["Binmode"]
-             if pt = buf.rindex(/\r\z/no)
-               buf = buf[0 ... pt]
-               rest = buf[pt .. -1]
-             end
-             buf.gsub!(/#{EOL}/no, "\n")
-           end
+          else
+            # Not Telnetmode.
+            #
+            # We cannot use preprocess() on this data, because that
+            # method makes some Telnetmode-specific assumptions.
+            buf = rest + c
+            rest = ''
+            unless @options["Binmode"]
+              if pt = buf.rindex(/\r\z/no)
+                buf = buf[0 ... pt]
+                rest = buf[pt .. -1]
+              end
+              buf.gsub!(/#{EOL}/no, "\n")
+            end
           end
           @log.print(buf) if @options.has_key?("Output_log")
           line += buf
