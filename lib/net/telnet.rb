@@ -469,7 +469,7 @@ module Net
             @telnet_option["SGA"] = true
             self.write(IAC + DO + OPT_SGA)
           else
-            self.write(IAC + DONT + $1[1..1])
+            self.write(IAC + DO + $1[1..1])
           end
           ''
         elsif WONT[0] == $1[0]  # respond to "IAC WON'T x"
