@@ -1,7 +1,5 @@
 # Net::Telnet
 
-[![Build Status](https://travis-ci.org/ruby/net-telnet.svg?branch=master)](https://travis-ci.org/ruby/net-telnet)
-
 Provides telnet client functionality.
 
 This class also has, through delegation, all the methods of a socket object (by default, a **TCPSocket**, but can be set by the **Proxy** option to ```new()```).  This provides methods such as ```close()``` to end the session and ```sysread()``` to read data directly from the host, instead of via the ```waitfor()``` mechanism.  Note that if you do use ```sysread()``` directly when in telnet mode, you should probably pass the output through ```preprocess()``` to extract telnet command sequences.
