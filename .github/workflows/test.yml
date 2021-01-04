@@ -20,7 +20,5 @@ jobs:
       run: |
         gem install bundler --no-document
         bundle install
-    - name: Run test
-      run: rake test
     - name: Run spec
       run: mspec
