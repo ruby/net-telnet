@@ -429,15 +429,8 @@ module Net
     # method yourself if you have read input directly using sysread()
     # or similar, and even then only if in telnet mode.
     def preprocess(string)
-      # combine CR+NULL into CR
-      string = string.gsub(/#{CR}#{NULL}/no, CR) if @options["Telnetmode"]
-
-      # combine EOL into "\n"
-      string = string.gsub(/#{EOL}/no, "\n") unless @options["Binmode"]
-
-      # remove NULL
-      string = string.gsub(/#{NULL}/no, '') unless @options["Binmode"]
-
+      # Handle command sequences first as they may contain characters
+      # which would otherwise be processed
       string.gsub(/#{IAC}(
                    [#{IAC}#{AO}#{AYT}#{DM}#{IP}#{NOP}]|
                    [#{DO}#{DONT}#{WILL}#{WONT}]
@@ -486,6 +479,15 @@ module Net
           ''
         end
       end
+
+      # combine CR+NULL into CR
+      string = string.gsub(/#{CR}#{NULL}/no, CR) if @options["Telnetmode"]
+
+      # combine EOL into "\n"
+      string = string.gsub(/#{EOL}/no, "\n") unless @options["Binmode"]
+
+      # remove NULL
+      string = string.gsub(/#{NULL}/no, '') unless @options["Binmode"]
     end # preprocess
 
     # Read data from the host until a certain sequence is matched.
